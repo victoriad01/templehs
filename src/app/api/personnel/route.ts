@@ -18,6 +18,7 @@ export const POST = async (request: Request) => {
       personnel_image,
       personnel_description,
       personnel_jobType,
+      // @ts-ignores
     } = await request.json()
     if (
       personnel_email &&
@@ -41,7 +42,7 @@ export const POST = async (request: Request) => {
         if (isAlreadyCreated.rows[0]) {
           return NextResponse.json({
             status: 400,
-            message: 'Personnel already exist!',
+            error: 'Personnel already exist!',
           })
         } else {
           const aPersonnel = await pool.query(
@@ -56,10 +57,18 @@ export const POST = async (request: Request) => {
           )
           return NextResponse.json({ status: 200, data: aPersonnel.rows[0] })
         }
-      } else return new NextResponse('Inputs are not valid!', { status: 400 })
-    } else return new NextResponse('All fields are required!', { status: 400 })
+      } else
+        return NextResponse.json({
+          status: 400,
+          error: 'Inputs are not valid!',
+        })
+    } else
+      return NextResponse.json({
+        status: 400,
+        error: 'All fields are required!',
+      })
   } catch (error) {
-    return new NextResponse(error as BodyInit | null)
+    return NextResponse.json({ status: 500, error })
   }
 }
 
@@ -69,6 +78,6 @@ export const GET = async () => {
     return NextResponse.json({ status: 200, data: allPersonnel.rows })
   } catch (error) {
     console.log(error)
-    return new NextResponse(error as BodyInit | null)
+    return NextResponse.json({ status: 500, error })
   }
 }

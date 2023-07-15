@@ -1,54 +1,35 @@
 'use client'
 
 import Card from '@/components/Card/page'
-import Footer from '@/components/footer/Footer'
-import Navbar from '@/components/navbar/page'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
-const data = [
-  {
-    id: 1,
-    visitType: 'Virtual visit only',
-    url: '/doc3.png',
-    name: 'Leo Stanton, MD',
-    jobTitle: 'Care Team Clinician Supervisor',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo soluta magnam temporibus cumque veniam iure fuga ipsum quia magni placeat. Aut, quod earum maiores rerum quidem ex ab nemo expedita magnam vel delectus accusantium officia laborum',
-    availableTime: ['Today, 3:30pm', 'Today, 6:30pm', 'Today, 8:30pm'],
-  },
-  {
-    id: 2,
-    visitType: 'In-person visit only',
-    url: '/doc3.png',
-    name: 'Leo Stanton, MD',
-    jobTitle: 'Care Team Clinician Supervisor',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo soluta magnam temporibus cumque veniam iure fuga ipsum quia magni placeat. Aut, quod earum maiores rerum quidem ex ab nemo expedita magnam vel delectus accusantium officia laborum',
-    availableTime: ['Today, 3:30pm'],
-  },
-  {
-    id: 3,
-    visitType: 'Virtual visit only',
-    url: '/doc3.png',
-    name: 'Leo Stanton, MD',
-    jobTitle: 'Care Team Clinician Supervisor',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo soluta magnam temporibus cumque veniam iure fuga ipsum quia magni placeat. Aut, quod earum maiores rerum quidem ex ab nemo expedita magnam vel delectus accusantium officia laborum',
-    availableTime: ['Today, 3:30pm'],
-  },
-]
-
-interface Data {
-  id: Number
-  visitType: String
-  url: String
-  name: String
-  jobTitle: String
-  description: String
-  availableTime: []
+export interface Data {
+  personnel_id: string | number
+  personnel_email: string
+  personnel_visittype: string
+  personnel_image: string
+  personnel_description: string
+  personnel_jobtype: string
+  availability: []
 }
 
-export default function Home() {
+const Page = () => {
+  const [apiData, setApiData] = useState<Array<Data>>([])
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/persandavail')
+        const jsonData = await response.json()
+        setApiData(jsonData.data)
+      } catch (error) {
+        console.log('Error fetching data:', error)
+      }
+    }
+
+    fetchData()
+  }, [])
+  console.log(apiData)
   return (
     <div>
       <div className='mt-8 mx-8 lg:flex  '>
@@ -89,12 +70,13 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-          {data.map((eachData) => (
-            <Card eachData={eachData} key={eachData.id} />
+          {apiData?.map((eachData) => (
+            <Card eachData={eachData} key={eachData.personnel_id} />
           ))}
         </div>
       </div>
     </div>
   )
 }
+
+export default Page

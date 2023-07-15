@@ -12,12 +12,17 @@ export const GET = async (req: Request, { params }: { params: Params }) => {
 
   try {
     if (!checkId) {
-      const aPersonnel = await pool.query(
+      const isPersonnel = await pool.query(
         'SELECT * FROM personnel WHERE personnel_id = $1',
         [id]
       )
-      if (aPersonnel.rows[0]) {
-        return NextResponse.json({ status: 200, data: aPersonnel.rows[0] })
+      if (isPersonnel.rows[0]) {
+        const query = `SELECT p.*, a.* FROM personnel p JOIN availability a ON p.personnel_id = a.personnel_id WHERE p.personnel_id = $1;`
+        const personnelWithAvail = await pool.query(query, [id])
+        return NextResponse.json({
+          status: 200,
+          data: personnelWithAvail.rows,
+        })
       } else
         return NextResponse.json({
           status: 404,
