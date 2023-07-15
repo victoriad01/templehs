@@ -5,7 +5,7 @@ import { GrNotification } from 'react-icons/gr'
 import { MdOutlinePayment } from 'react-icons/md'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 interface data {
@@ -25,6 +25,8 @@ interface Personnel {
 
 const Page = () => {
   const { id } = useParams()
+  const router = useRouter()
+
   const [apiData, setApiData] = useState<data>()
   const [personnelData, setPersonnelData] = useState<Personnel>({
     personnel_id: '',
@@ -35,7 +37,7 @@ const Page = () => {
     personnel_jobtype: '',
   })
   const [isError, setIsError] = useState(false)
-  const [error, setError] = useState()
+  const [error, setError] = useState('')
 
   const [isChecked, setIsChecked] = useState<boolean>(false)
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,11 +78,19 @@ const Page = () => {
 
   // const duration = new Date(apiData?.ava_time.end_time)
 
-  const handleClick = (available: data) => {
+  const handleClick = () => {
+    if (!isChecked) {
+      setError(
+        'Please check the box to certify that you have read and accept the terms of Temple'
+      )
+    }
     if (isChecked) {
-      const ava_id = available?.ava_id
-      const user_id = 1
+      // The availability ID
+      const ava_id = id
+      // The asuumed patient ID
+      const user_id = 2
       const data = { ava_id, user_id }
+      console.log(data)
       const postData = async () => {
         try {
           const url = 'http://localhost:3000/api/appointment'
@@ -92,12 +102,18 @@ const Page = () => {
             body: JSON.stringify(data),
           })
 
-          if (response.ok) {
-            // const responseData = await response.json()
-            // navigate to Wow Modal
+          const responseData = await response.json()
+          console.log(responseData)
+
+          if (responseData.status === 200) {
+            // If OK,  navigate to Success page
+            router.push('/success')
           } else {
-            // The request was not successful
-            throw new Error('Error: ' + response.status)
+            // If request was not successful
+            // throw new Error('Error: ' + responseData.error)
+            setIsError(true)
+            setError(responseData.error)
+            console.log(responseData.error)
           }
         } catch (error) {
           setIsError(true)
@@ -110,8 +126,12 @@ const Page = () => {
     }
   }
 
+  setTimeout(() => {
+    setIsError(false)
+  }, 5000)
+
   return (
-    <div className='mt-8 mx-8 lg:flex  '>
+    <div className='mt-8 mx-8 lg:flex flex-col '>
       <div className='flex flex-col flex-1'>
         <Link
           href='/'
@@ -120,86 +140,93 @@ const Page = () => {
           <Image src='/back.png' alt='Back icon' width={15} height={15} />
           <p>Go back</p>
         </Link>
-        <p className='text-3xl lg:w-[400px] font-medium leading-normal md:mb-12 lg:mb-0'>
-          Confirm your appointment details
-        </p>
       </div>
-      <div className='flex flex-col flex-1'>
-        <div className='flex flex-col mt-4 bg-white rounded-md shadow-lg pl-6  md:w-[600px]'>
-          <div className=' flex gap-4'>
-            <Image
-              src={personnelData?.personnel_image}
-              alt='the clinician'
-              width={65}
-              height={65}
-              className='cursor-pointer rounded-full bg-green-500 object-cover'
-            />
-
-            <div className='flex flex-col gap-3'>
-              <p className='font-medium text-[18px]'>
-                {personnelData?.personnel_email}
-              </p>
-              <p className='text-[12px]'>{personnelData?.personnel_jobtype}</p>
-            </div>
-          </div>
-
-          <div className='mb-16   '>
-            <div className='flex justify-start item-center mb-4 mt-12'>
-              <p className='w-[200px] flex justify-start items-center gap-2'>
-                <BsCalendar2Date />
-                Date:
-              </p>
-              <p className='font-medium'>{apiData?.ava_time.date}</p>
-            </div>
-            <div className='flex justify-start item-center mb-4'>
-              <p className='w-[200px] flex justify-start items-center gap-2'>
-                <AiOutlineClockCircle />
-                Duration:
-              </p>
-              <p className='font-medium'>{apiData?.ava_time.end_time}</p>
-            </div>
-            <div className='flex justify-start item-center mb-4 '>
-              <p className='w-[200px] flex justify-start items-center gap-2'>
-                <GrNotification />
-                Reminder:
-              </p>
-              <p className='font-medium'>
-                aleshpelumi@gmail.com
-                <span className='pl-12 text-[green] '>Change</span>
-              </p>
-            </div>
-            <div className='flex justify-start item-center mb-4'>
-              <p className='w-[200px] flex justify-start items-center gap-2'>
-                <MdOutlinePayment /> Payment Details:
-              </p>
-              <p className='font-medium'>
-                Mastercard****6427 - Exp 02/25
-                <span className='pl-12 text-[green] '>Change</span>
-              </p>
-            </div>
-          </div>
+      <div className='flex justify-start items-start'>
+        <div className='flex flex-col flex-1'>
+          <p className='text-3xl lg:w-[400px] font-medium leading-normal md:mb-12 lg:mb-0'>
+            Confirm your appointment details
+          </p>
         </div>
-
-        <div className='flex justify-start gap-4 items-center'>
-          <div>
-            <label className=' flex justify-start items-center gap-4 my-6  text-[green]'>
-              <input
-                type='checkbox'
-                checked={isChecked}
-                onChange={handleCheckboxChange}
-                className='p-4 bg-[#454B1B]'
+        <div className='flex flex-col flex-1'>
+          <div className='flex flex-col mt-4 bg-white rounded-md shadow-lg pl-6  md:w-[600px]'>
+            <div className=' flex gap-4'>
+              <Image
+                src={personnelData?.personnel_image}
+                alt='the clinician'
+                width={65}
+                height={65}
+                className='cursor-pointer rounded-full bg-green-500 object-cover'
               />
-              I certify that I have read and accept the terms of Temple.
-            </label>
+
+              <div className='flex flex-col gap-3'>
+                <p className='font-medium text-[18px]'>
+                  {personnelData?.personnel_email}
+                </p>
+                <p className='text-[12px]'>
+                  {personnelData?.personnel_jobtype}
+                </p>
+              </div>
+            </div>
+
+            <div className='mb-16   '>
+              <div className='flex justify-start item-center mb-4 mt-12'>
+                <p className='w-[200px] flex justify-start items-center gap-2'>
+                  <BsCalendar2Date />
+                  Date:
+                </p>
+                <p className='font-medium'>{apiData?.ava_time.date}</p>
+              </div>
+              <div className='flex justify-start item-center mb-4'>
+                <p className='w-[200px] flex justify-start items-center gap-2'>
+                  <AiOutlineClockCircle />
+                  Duration:
+                </p>
+                <p className='font-medium'>{apiData?.ava_time.end_time}</p>
+              </div>
+              <div className='flex justify-start item-center mb-4 '>
+                <p className='w-[200px] flex justify-start items-center gap-2'>
+                  <GrNotification />
+                  Reminder:
+                </p>
+                <p className='font-medium'>
+                  aleshpelumi@gmail.com
+                  <span className='pl-12 text-[green] '>Change</span>
+                </p>
+              </div>
+              <div className='flex justify-start item-center mb-4'>
+                <p className='w-[200px] flex justify-start items-center gap-2'>
+                  <MdOutlinePayment /> Payment Details:
+                </p>
+                <p className='font-medium'>
+                  Mastercard****6427 - Exp 02/25
+                  <span className='pl-12 text-[green] '>Change</span>
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className='flex justify-end items-center mt-6 px-14'>
-          <button
-            onClick={handleClick}
-            className='bg-[#454B1B] px-8 py-4 rounded-full text-[white]'
-          >
-            Schedule Appointment
-          </button>
+
+          <div className='flex justify-start gap-4 items-center'>
+            <div>
+              <label className=' flex justify-start items-center gap-4 my-6  text-[green]'>
+                <input
+                  type='checkbox'
+                  checked={isChecked}
+                  onChange={handleCheckboxChange}
+                  className='p-4 bg-[#454B1B]'
+                />
+                I certify that I have read and accept the terms of Temple.
+              </label>
+            </div>
+          </div>
+          {error ? <p className='text-[red]'>Oops! {error}</p> : ''}
+          <div className='flex justify-end items-center mt-6 px-14'>
+            <button
+              onClick={handleClick}
+              className='bg-[#454B1B] px-8 py-4 rounded-full text-[white]'
+            >
+              Schedule Appointment
+            </button>
+          </div>
         </div>
       </div>
     </div>

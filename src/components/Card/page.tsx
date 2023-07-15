@@ -13,7 +13,11 @@ const Card = ({ eachData }: DataDetails) => {
   return (
     <div className='flex flex-col mt-4 bg-white rounded-md shadow-lg pl-3 md:w-[600px]'>
       <div className='flex justify-end '>
-        <p className='text-[#454B1B] bg-[#d0fed0] px-6 py-[1px] text-sm'>
+        <p
+          className={
+            eachData.personnel_visittype === 'Virtual' ? 'virtual' : 'inperson'
+          }
+        >
           {eachData.personnel_visittype} visit only
         </p>
       </div>
@@ -27,13 +31,13 @@ const Card = ({ eachData }: DataDetails) => {
         />
 
         <div className='flex flex-col gap-3'>
-          <p className='font-medium text-[18px]'>{eachData.personnel_email}</p>
-          <p className='text-[12px]'>{eachData.personnel_jobtype}</p>
+          <p className='font-medium text-[22px]'>{eachData.personnel_email}</p>
+          <p className='text-[14px]'>{eachData.personnel_jobtype}</p>
         </div>
       </div>
-      <p className='text-[12px] my-4'>{eachData.personnel_description}</p>
+      <p className='text-[14px] my-4'>{eachData.personnel_description}</p>
       <p className='font-medium text-[14px] mb-2'>Next Avaliable Slots</p>
-      <div className='flex justify-start items-center gap-2'>
+      <div className='flex justify-start items-center gap-2 mb-2'>
         {eachData.availability?.map((available: Availabilty) => (
           <button
             key={available?.ava_id}

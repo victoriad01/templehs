@@ -24,8 +24,7 @@ export const POST = async (request: Request) => {
         if (isAlreadyCreated.rows[0]?.user_id == user_id) {
           return NextResponse.json({
             status: 400,
-            error:
-              'You have earlier booked this Personnel you cannot book again!',
+            error: 'You earlier booked this Personnel you cannot book again!',
           })
         } else if (isAlreadyCreated.rows[0]) {
           return NextResponse.json({

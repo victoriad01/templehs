@@ -32,7 +32,7 @@ const Page = () => {
   console.log(apiData)
   return (
     <div>
-      <div className='mt-8 mx-8 lg:flex  '>
+      <div className='mt-8 mx-8 lg:flex  text-[#191b0a]'>
         <div className='flex flex-col flex-1'>
           <div className='flex gap-3 justify-start items-center mb-10 cursor-pointer'>
             <Image src='/back.png' alt='Back icon' width={15} height={15} />

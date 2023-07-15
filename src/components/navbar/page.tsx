@@ -1,10 +1,13 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Navbar() {
   return (
-    <main className='bg-[#f2fff2] text-[#0b1b17] py-6 px-8 flex justify-between items-center'>
+    <main className='bg-[#f6f6f2] text-[#0b1b17] py-6 px-8 flex justify-between items-center'>
       <div>
-        <p className='font-[700]'>Schedule Appointment</p>
+        <Link href='/'>
+          <p className='font-[700]'>Schedule Appointment</p>
+        </Link>
       </div>
       <div className='flex justify-between items-center gap-4'>
         <div>
