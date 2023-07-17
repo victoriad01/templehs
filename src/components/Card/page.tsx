@@ -1,33 +1,32 @@
-import Image from 'next/image'
-import React from 'react'
-import AppointmentButton from '../appointmentButton/appointmentButton'
+import React, { useEffect, useState } from 'react'
+import { SlArrowLeft, SlArrowRight } from 'react-icons/sl'
 
-export interface Data {
-  id: number
-  visitType: string
-  url: string
-  name: string
-  jobTitle: string
-  description: string
-  availableTime: string[]
-}
+import { Data } from '@/app/page'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+
+import { Availabilty } from '../appointmentButton/appointmentButton'
 
 export interface DataDetails {
   eachData: Data
 }
 
 const Card = ({ eachData }: DataDetails) => {
-  const pro_id = eachData.id
+  const router = useRouter()
   return (
     <div className='flex flex-col mt-4 bg-white rounded-md shadow-lg pl-3 md:w-[600px]'>
-      <div className='flex justify-end '>
-        <p className='text-[green] bg-[#d0fed0] px-6 py-[1px] text-sm'>
-          {eachData.visitType}
+      <div className='flex justify-end'>
+        <p
+          className={
+            eachData.personnel_visittype === 'Virtual' ? 'virtual' : 'inperson'
+          }
+        >
+          {eachData.personnel_visittype} visit only
         </p>
       </div>
       <div className=' flex gap-4'>
         <Image
-          src={eachData.url}
+          src={eachData.personnel_image}
           alt='the clinician'
           width={65}
           height={65}
@@ -35,18 +34,48 @@ const Card = ({ eachData }: DataDetails) => {
         />
 
         <div className='flex flex-col gap-3'>
-          <p className='font-medium text-[18px]'>{eachData.name}</p>
-          <p className='text-[12px]'>{eachData.jobTitle}</p>
+          <p className='font-medium text-[22px]'>
+            {eachData.personnel_fullname},
+            <span className='font-medium pl-[2px]'>
+              {eachData.personnel_position?.toUpperCase()}
+            </span>
+          </p>
+          <p className='text-[14px]'>{eachData.personnel_jobtype}</p>
         </div>
       </div>
-      <p className='text-[11px] my-4'>{eachData.description}</p>
-      <p className='font-medium text-[14px]'>Next Avaliable Slots</p>
-      <div>
-        {eachData.availableTime.map((time, index) => (
-          <AppointmentButton time={time} key={index} pro_id={pro_id} />
-        ))}
+      <p className='text-[14px] my-4'>{eachData.personnel_description}</p>
+      <p className='font-medium text-[14px] mb-2'>Next Avaliable Slots</p>
+
+      <div className='flex justify-start items-center'>
+        <div className='flex w-[200px] md:w-[520px] justify-start items-center gap-2 mb-2'>
+          {eachData.availability?.map((available: Availabilty) => (
+            <button
+              disabled={!eachData.availability}
+              key={available?.availability_id}
+              className='border-[2px] border-[#D3D3D3] px-2 py-4 md:p-4 mt-1 lg:mr-2 rounded-full text-gray-500 text-[12px] flex justify-start items-center gap-1'
+              onClick={() => {
+                if (available?.availability_id) {
+                  router.push(`/${available?.availability_id}`)
+                }
+              }}
+            >
+              <p className='font-semibold'>
+                {available?.ava_time.date ? available.ava_time.date : ''}
+              </p>
+              <p>
+                {available?.ava_time.start_time
+                  ? available.ava_time.start_time
+                  : 'Not avaliable for now. Kindly Check Back'}
+              </p>
+            </button>
+          ))}
+        </div>
+        <div className='flex gap-6 z-10 bg-[#d0fed0] md:bg-transparent p-4 rounded-full opacity-90'>
+          <SlArrowLeft className='cursor-pointer' />
+          <SlArrowRight className='cursor-pointer' />
+        </div>
       </div>
-      <p className='text-[12px] my-4 font-medium text-[green]'>
+      <p className='text-[14px] my-4 font-medium text-[green]'>
         Check Full profile and availability
       </p>
     </div>

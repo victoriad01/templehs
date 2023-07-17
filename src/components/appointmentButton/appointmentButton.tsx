@@ -1,25 +1,41 @@
 'use client'
 
-import React from 'react'
+import React, { DetailedHTMLProps, HTMLAttributes } from 'react'
 import { useRouter } from 'next/navigation'
 
-interface Time {
-  time: string
-  pro_id: number
+export interface Availabilty {
+  availability_id: string | number
+  personnel_id: string | number
+  ava_time: {
+    // date: DetailedHTMLProps<
+    //   HTMLAttributes<HTMLParagraphElement>,
+    //   HTMLParagraphElement
+    // >
+    date: string
+    end_time: string
+    start_time: string
+  }
 }
 
-export default function AppointmentButton({ time, pro_id }: Time) {
+export interface Avail {
+  availability: Availabilty
+}
+
+export default function AppointmentButton({ availability }: Avail) {
   const router = useRouter()
   const handleClick = () => {
-    router.push(`/${pro_id}`)
+    // router.push(`/${pro_id}`)
   }
 
   return (
-    <button
-      className='border-[1px] border-gray-500 p-3 mt-1 lg:mr-4 rounded-full text-gray-500 text-[14px]'
-      onClick={handleClick}
-    >
-      {time}
-    </button>
+    <p>Hello</p>
+
+    // {availability.map((avail:Availabilty)=>  <div>
+    // <button
+    //   className='border-[1px] border-gray-500 p-3 mt-1 lg:mr-4 rounded-full text-gray-500 text-[14px]'
+    //   onClick={handleClick}
+    // >
+    //   <p>12:00am</p>
+    // </button></div>)}
   )
 }
