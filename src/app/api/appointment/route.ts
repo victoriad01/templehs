@@ -10,18 +10,19 @@ type Data = {
 export const POST = async (request: Request) => {
   try {
     // @ts-ignore
-    const { ava_id, user_id } = await request.json()
-    if (ava_id && user_id) {
+    const { availability_id, patient_id, personnel_id } = await request.json()
+    if (availability_id && patient_id && personnel_id) {
       if (
-        (typeof ava_id === 'string' || 'number') &&
-        (typeof user_id === 'string' || 'number')
+        (typeof availability_id === 'string' || 'number') &&
+        (typeof patient_id === 'string' || 'number') &&
+        (typeof personnel_id === 'string' || 'number')
       ) {
         const isAlreadyCreated = await pool.query(
-          'SELECT * from appointment WHERE ava_id = $1',
-          [ava_id]
+          'SELECT * from appointment WHERE availability_id = $1',
+          [availability_id]
         )
-        console.log(isAlreadyCreated.rows[0]?.user_id)
-        if (isAlreadyCreated.rows[0]?.user_id == user_id) {
+        console.log(isAlreadyCreated.rows[0]?.patient_id)
+        if (isAlreadyCreated.rows[0]?.patient_id == patient_id) {
           return NextResponse.json({
             status: 400,
             error: 'You earlier booked this Personnel you cannot book again!',
@@ -33,8 +34,8 @@ export const POST = async (request: Request) => {
           })
         } else {
           const aPersonnel = await pool.query(
-            'INSERT INTO appointment ( ava_id, user_id) VALUES ($1, $2 ) RETURNING *',
-            [ava_id, user_id]
+            'INSERT INTO appointment ( availability_id, patient_id, personnel_id) VALUES ($1, $2, $3 ) RETURNING *',
+            [availability_id, patient_id, personnel_id]
           )
           return NextResponse.json({ status: 200, data: aPersonnel.rows[0] })
         }

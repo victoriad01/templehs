@@ -4,7 +4,7 @@ import React, { DetailedHTMLProps, HTMLAttributes } from 'react'
 import { useRouter } from 'next/navigation'
 
 export interface Availabilty {
-  ava_id: string | number
+  availability_id: string | number
   personnel_id: string | number
   ava_time: {
     // date: DetailedHTMLProps<

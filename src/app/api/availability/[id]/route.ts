@@ -13,7 +13,7 @@ export const GET = async (req: Request, { params }: { params: Params }) => {
   try {
     if (!checkId) {
       const availability_per_id = await pool.query(
-        'SELECT * FROM availability WHERE ava_id = $1',
+        'SELECT * FROM availability WHERE availability_id = $1',
         [id]
       )
       if (availability_per_id.rows[0]) {

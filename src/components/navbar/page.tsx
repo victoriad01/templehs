@@ -3,10 +3,15 @@ import Link from 'next/link'
 
 export default function Navbar() {
   return (
-    <main className='bg-[#f6f6f2] text-[#0b1b17] py-6 px-8 flex justify-between items-center'>
+    <main className='bg-[#fbfdfb] text-[#364613] py-6 px-4 md:px-8 flex justify-between items-center shadow-sm'>
       <div>
         <Link href='/'>
-          <p className='font-[700]'>Schedule Appointment</p>
+          <p className='font-[700] mb-4 md:mb-0 hidden md:flex'>
+            Schedule Appointment
+          </p>
+          <p className='font-[700]  md:mb-0 flex  justify-start items-center md:hidden'>
+            SA{' '}
+          </p>
         </Link>
       </div>
       <div className='flex justify-between items-center gap-4'>

@@ -4,8 +4,8 @@ import React from 'react'
 const route = () => {
   return (
     <div className=' '>
-      <div className='flex flex-col justify-center items-center gap-4'>
-        <p className='text-[green]  text-5xl font-light mt-[180px]'>
+      <div className='px-6 md:px-0 flex flex-col justify-center items-center gap-4'>
+        <p className='text-[green] text-3xl md:text-5xl font-light mt-[180px]'>
           SUCCESSFULL!
         </p>
         <p className='text-[#454B1B] text-[16px]'>Appointment Booked!</p>

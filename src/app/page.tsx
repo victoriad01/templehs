@@ -11,11 +11,17 @@ export interface Data {
   personnel_image: string
   personnel_description: string
   personnel_jobtype: string
+  personnel_fullname: string
+  personnel_position: string
+
   availability: []
 }
 
 const Page = () => {
   const [apiData, setApiData] = useState<Array<Data>>([])
+  const [getDate, setGetDate] = useState('Select date')
+
+  console.log(apiData)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -29,41 +35,43 @@ const Page = () => {
 
     fetchData()
   }, [])
-  console.log(apiData)
+
   return (
     <div>
-      <div className='mt-8 mx-8 lg:flex  text-[#191b0a]'>
+      <div className='mt-8 mx-4 md:mx-8 lg:flex  text-[#191b0a]'>
         <div className='flex flex-col flex-1'>
           <div className='flex gap-3 justify-start items-center mb-10 cursor-pointer'>
             <Image src='/back.png' alt='Back icon' width={15} height={15} />
             <p>Go back</p>
           </div>
-          <p className='text-3xl lg:w-[400px] font-medium leading-normal md:mb-12 lg:mb-0'>
+          <p className='text-2xl  lg:text-4xl lg:w-[450px] leading-10 font-medium md:mb-12 lg:mb-0'>
             Select your doctor and appointment time
           </p>
         </div>
         <div className='flex flex-col flex-1'>
-          <div className='md:flex gap-3'>
+          <div className=' md:flex  md:gap-3'>
             <div>
-              <p className='font-medium'>Date</p>
+              <p className='font-medium mt-4 md:mt-0'>Date</p>
               <input
                 type='date'
                 placeholder='Select date'
-                className='border-[1px] border-gray-500 p-3 mt-1 rounded-md text-gray-500 w-[190px]'
+                // value={getDate}
+                defaultValue={getDate}
+                className='border-[1px] border-[#D3D3D3] p-3 mt-1 cursor-pointer rounded-md text-gray-500 w-full md:w-[190px]'
               />
             </div>
             <div>
-              <p className='font-medium'>Time</p>
+              <p className='font-medium mt-4 md:mt-0'>Time</p>
               <input
                 type='time'
-                placeholder='Select date'
-                className='border-[1px] border-gray-500 p-3 mt-1 rounded-md text-gray-500 w-[190px]'
+                placeholder='Select time range'
+                className='border-[1px] border-[#D3D3D3] p-3 mt-1 cursor-pointer rounded-md text-gray-500 w-full md:w-[190px]'
               />
             </div>
-            <div>
-              <p className='font-medium'>Expertise</p>
+            <div className='my-4 md:my-0'>
+              <p className='font-medium '>Expertise</p>
 
-              <div className='border-[1px] border-gray-500 p-3 mt-1 rounded-md text-gray-500 w-[190px]'>
+              <div className='border-[1px] border-[#D3D3D3] p-3 mt-1 cursor-pointer rounded-md text-gray-500 w-full md:w-[190px]'>
                 <select name='' id=''>
                   <option value='0'>Select expertise</option>
                 </select>
@@ -71,7 +79,7 @@ const Page = () => {
             </div>
           </div>
           {apiData?.map((eachData) => (
-            <Card eachData={eachData} key={eachData.personnel_id} />
+            <Card eachData={eachData} key={eachData?.personnel_id} />
           ))}
         </div>
       </div>

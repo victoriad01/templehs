@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  color: #364613;
+}
+
 .virtual {
   color: #454b1b;
   background-color: #d0fed0;
