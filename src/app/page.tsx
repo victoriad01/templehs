@@ -23,7 +23,7 @@ const Page = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/personnel/route.ts')
+        const response = await fetch('/api/personnel')
         const jsonData = await response.json()
         setApiData(jsonData.data)
         console.log('>>>>> ' + jsonData.data)
