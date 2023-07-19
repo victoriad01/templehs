@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db } from '../../../../../config/db/db'
+import { db } from '../../../../../../config/db/db'
 
 export interface Params {
   id: string
@@ -7,15 +7,19 @@ export interface Params {
 
 export const GET = async (req: NextRequest, { params }: { params: Params }) => {
   const { id } = params
-
   const checkId = isNaN(Number(id))
 
   try {
     if (!checkId) {
-      const aPersonnel = await db('personnel').where('personnel_id', id)
-
-      if (aPersonnel[0]) {
-        return NextResponse.json({ status: 200, data: aPersonnel[0] })
+      const availability_per_id = await db('availability').where(
+        'availability_id',
+        id
+      )
+      if (availability_per_id[0]) {
+        return NextResponse.json({
+          status: 200,
+          data: availability_per_id[0],
+        })
       } else
         return NextResponse.json({
           status: 404,

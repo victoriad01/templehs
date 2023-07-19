@@ -1,4 +1,3 @@
-import { Request } from 'express'
 import { NextResponse } from 'next/server'
 const pool = require('@/utils/db/db.ts')
 

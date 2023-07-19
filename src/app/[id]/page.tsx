@@ -22,10 +22,10 @@ interface Personnel {
 
 const Page = () => {
   const { id } = useParams()
-
   const router = useRouter()
 
   const [apiData, setApiData] = useState<Availabilty>()
+
   const [personnelData, setPersonnelData] = useState<Personnel>({
     personnel_id: '',
     personnel_email: '',
@@ -49,7 +49,7 @@ const Page = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/availability/${id}`
+          `http://localhost:3000/api/availability/byavaid/${id}`
         )
         const jsonData = await response.json()
         setApiData(jsonData.data)
@@ -99,7 +99,6 @@ const Page = () => {
 
       const data = { availability_id, patient_id, personnel_id }
 
-      console.log(data)
       const postData = async () => {
         try {
           const url = 'http://localhost:3000/api/appointment'
@@ -185,14 +184,14 @@ const Page = () => {
                   <BsCalendar2Date />
                   Date:
                 </p>
-                <p className='font-medium'>{apiData?.ava_time.date}</p>
+                <p className='font-medium'>{apiData?.ava_time?.date}</p>
               </div>
               <div className='flex justify-between md:justify-start item-center mb-4'>
                 <p className='w-[200px] flex justify-start items-center gap-2'>
                   <AiOutlineClockCircle />
                   Duration:
                 </p>
-                <p className='font-medium'>{apiData?.ava_time.end_time}</p>
+                <p className='font-medium'>{apiData?.ava_time?.end_time}</p>
               </div>
               <div className='md:flex justify-start item-center mb-4 '>
                 <p className='w-[200px] flex justify-start items-center gap-2'>

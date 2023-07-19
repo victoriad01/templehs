@@ -1,25 +1,24 @@
-import { Request } from 'express'
-import { NextResponse } from 'next/server'
-const pool = require('@/utils/db/db.ts')
+import { NextRequest, NextResponse } from 'next/server'
+import { db } from '../../../../../config/db/db'
 
 export interface Params {
   id: string
 }
 
-export const GET = async (req: Request, { params }: { params: Params }) => {
+export const GET = async (req: NextRequest, { params }: { params: Params }) => {
   const { id } = params
   const checkId = isNaN(Number(id))
 
   try {
     if (!checkId) {
-      const availability_per_id = await pool.query(
-        'SELECT * FROM availability WHERE availability_id = $1',
-        [id]
+      const availability_per_id = await db('availability').where(
+        'personnel_id',
+        id
       )
-      if (availability_per_id.rows[0]) {
+      if (availability_per_id) {
         return NextResponse.json({
           status: 200,
-          data: availability_per_id.rows[0],
+          data: availability_per_id,
         })
       } else
         return NextResponse.json({
