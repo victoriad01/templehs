@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 export interface Data {
   personnel_id: string | number
   personnel_email: string
-  personnel_visittype: string
+  personnel_visit_type: string
   personnel_image: string
   personnel_description: string
   personnel_jobtype: string
@@ -21,13 +21,13 @@ const Page = () => {
   const [apiData, setApiData] = useState<Array<Data>>([])
   const [getDate, setGetDate] = useState('Select date')
 
-  console.log(apiData)
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/persandavail')
+        const response = await fetch('http://localhost:3000/api/personnel')
         const jsonData = await response.json()
         setApiData(jsonData.data)
+        console.log('>>>>> ' + jsonData.data)
       } catch (error) {
         console.log('Error fetching data:', error)
       }

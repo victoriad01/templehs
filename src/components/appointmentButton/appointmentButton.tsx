@@ -7,14 +7,12 @@ export interface Availabilty {
   availability_id: string | number
   personnel_id: string | number
   ava_time: {
-    // date: DetailedHTMLProps<
-    //   HTMLAttributes<HTMLParagraphElement>,
-    //   HTMLParagraphElement
-    // >
     date: string
     end_time: string
     start_time: string
   }
+  created_at: string
+  updated_at: string
 }
 
 export interface Avail {

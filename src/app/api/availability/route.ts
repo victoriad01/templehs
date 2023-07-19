@@ -1,13 +1,12 @@
-import { Request } from 'express'
-import { NextResponse } from 'next/server'
-const pool = require('@/utils/db/db.ts')
+import { NextRequest, NextResponse } from 'next/server'
+import { db } from '../../../../config/db/db'
 
 type Data = {
   personnel_id?: string
   ava_time?: object
 }
 
-export const POST = async (request: Request) => {
+export const POST = async (request: NextRequest) => {
   try {
     // @ts-ignore
     const { personnel_id, ava_time } = await request.json()
@@ -16,21 +15,25 @@ export const POST = async (request: Request) => {
         (typeof personnel_id === 'string' || 'number') &&
         typeof ava_time === 'object'
       ) {
-        const isAlreadyCreated = await pool.query(
-          'SELECT from availability WHERE ava_time = $1 AND personnel_id = $2',
-          [ava_time, personnel_id]
-        )
-        if (isAlreadyCreated.rows[0]) {
+        const isAlreadyCreated = await db('availability')
+          .where('ava_time', ava_time)
+          .where('personnel_id', personnel_id)
+
+        if (isAlreadyCreated[0]) {
           return NextResponse.json({
             status: 400,
             error: 'This Period is already created by you!',
           })
         } else {
-          const aPersonnel = await pool.query(
-            'INSERT INTO availability ( personnel_id, ava_time) VALUES ($1, $2 ) RETURNING *',
-            [personnel_id, ava_time]
-          )
-          return NextResponse.json({ status: 200, data: aPersonnel.rows[0] })
+          await db('availability').insert({
+            personnel_id,
+            ava_time,
+          })
+
+          return NextResponse.json({
+            status: 200,
+            data: { personnel_id, ava_time },
+          })
         }
       } else
         return NextResponse.json({
@@ -49,8 +52,8 @@ export const POST = async (request: Request) => {
 
 export const GET = async () => {
   try {
-    const allPersonnel = await pool.query('SELECT * FROM availability')
-    return NextResponse.json({ status: 200, data: allPersonnel.rows })
+    const allPersonnel = await db('availability')
+    return NextResponse.json({ status: 200, data: allPersonnel })
   } catch (error) {
     console.log(error)
     return NextResponse.json({ status: 500, error })

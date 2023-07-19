@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import mime from 'mime'
+
+// import * as mime from 'mime-types'
+
 import { join } from 'path'
 import { stat, mkdir, writeFile } from 'fs/promises'
 import * as dateFn from 'date-fns'
-import { Mime } from '../utils/mime'
-
-const pool = require('@/utils/db/db.ts')
+import { db } from '../../../../config/db/db'
 
 export const POST = async (request: NextRequest) => {
   try {
@@ -48,17 +49,18 @@ export const POST = async (request: NextRequest) => {
       )
 
       if (allValuesAreStrings) {
-        const isAlreadyCreated = await pool.query(
-          'SELECT from personnel WHERE personnel_email =$1',
-          [personnel_email]
+        const isAlreadyCreated = await db('personnel').where(
+          'personnel_email',
+          personnel_email
         )
 
-        if (isAlreadyCreated.rows[0]) {
+        if (isAlreadyCreated[0]) {
           return NextResponse.json({
             status: 400,
             error: 'Personnel already exist!',
           })
         } else {
+
           const buffer = Buffer.from(await personnel_image.arrayBuffer())
           const relativeUploadDir = `/uploads/${dateFn.format(
             Date.now(),
@@ -83,6 +85,7 @@ export const POST = async (request: NextRequest) => {
             }
           }
           try {
+
             const uniqueSuffix = `${Date.now()}-${Math.round(
               Math.random() * 1e9
             )}`
@@ -92,19 +95,46 @@ export const POST = async (request: NextRequest) => {
             )}-${uniqueSuffix}.${mime.getExtension(personnel_image.type)}`
             await writeFile(`${uploadDir}/${filename}`, buffer)
             const fileUrl = `${relativeUploadDir}/${filename}`
-            const aPersonnel = await pool.query(
-              'INSERT INTO personnel (personnel_fullName, personnel_email, personnel_description, personnel_jobType, personnel_position, personnel_visitType, personnel_image ) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-              [
-                personnel_fullName,
-                personnel_email,
-                personnel_description,
-                personnel_jobType,
-                personnel_position,
-                personnel_visitType,
-                fileUrl,
-              ]
-            )
-            return NextResponse.json({ status: 200, data: aPersonnel.rows[0] })
+            // const aPersonnel = await pool.query(
+            //   'INSERT INTO personnel (personnel_fullName, personnel_email, personnel_description, personnel_jobType, personnel_position, personnel_visitType, personnel_image ) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+            //   [
+            //     personnel_fullName,
+            //     personnel_email,
+            //     personnel_description,
+            //     personnel_jobType,
+            //     personnel_position,
+            //     personnel_visitType,
+            //     fileUrl,
+            //   ]
+            // )
+
+
+            const data = {
+              personnel_fullname: personnel_fullName,
+              personnel_email,
+              personnel_description,
+              personnel_jobtype: personnel_jobType,
+              personnel_position,
+              personnel_visit_type: personnel_visitType,
+              personnel_image: fileUrl,
+            }
+
+            // new knex query
+            await db('personnel').insert({
+              personnel_fullname: personnel_fullName,
+              personnel_email,
+              personnel_description,
+              personnel_jobtype: personnel_jobType,
+              personnel_position,
+              personnel_visit_type: personnel_visitType,
+              personnel_image: fileUrl,
+            })
+
+
+            return NextResponse.json({
+              status: 200,
+              data,
+            })
           } catch (e) {
             console.error('Error >>> ' + e)
             return NextResponse.json({ status: 500, error: e })
@@ -129,11 +159,10 @@ export const POST = async (request: NextRequest) => {
 
 export const GET = async () => {
   try {
-    const allPersonnel = await pool.query('SELECT * FROM personnel')
-    
-    return NextResponse.json({ status: 200, data: allPersonnel.rows })
+    const allPersonnel = await db('personnel')
+    return NextResponse.json({ status: 200, data: allPersonnel })
   } catch (error) {
     console.log(error)
-    return NextResponse.json({ status: 500, msg: error })
+    return NextResponse.json({ status: 500, error })
   }
 }

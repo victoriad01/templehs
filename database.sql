@@ -35,6 +35,5 @@ CREATE TABLE appointment (
   availability_id INTEGER NOT NULL,
   patient_id INTEGER NOT NULL,
   personnel_id INTEGER NOT NULL,
-  FOREIGN KEY (personnel_id) REFERENCES personnel (personnel_id),
-  FOREIGN KEY (availability_id) REFERENCES availability (availability_id)
+  FOREIGN KEY (personnel_id) REFERENCES personnel (personnel_id)
 );
