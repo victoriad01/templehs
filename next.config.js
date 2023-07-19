@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.externals = config.externals.concat([
       // Possible drivers (and related modules) for knex - we'll ignore them
