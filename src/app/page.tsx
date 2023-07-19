@@ -13,7 +13,6 @@ export interface Data {
   personnel_jobtype: string
   personnel_fullname: string
   personnel_position: string
-
   availability: []
 }
 
@@ -24,7 +23,7 @@ const Page = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('../app/api/personnel.ts')
+        const response = await fetch('../app/api/personnel/route.ts')
         const jsonData = await response.json()
         setApiData(jsonData.data)
         console.log('>>>>> ' + jsonData.data)
