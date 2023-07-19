@@ -1,10 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    domains: ['www.google.com'],
-  },
-
-  // output: 'export',
+  output: 'export',
 
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.externals = config.externals.concat([
