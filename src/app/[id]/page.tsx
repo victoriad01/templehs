@@ -50,7 +50,7 @@ const Page = () => {
       try {
         const response = await fetch(
           // `http://localhost:3000/api/availability/byavaid/${id}`
-          `https://templehs-deploy.vercel.app/api/availability/byavaid/${id}`
+          `../api/availability/byavaid/${id}`
         )
         const jsonData = await response.json()
         setApiData(jsonData.data)
@@ -66,7 +66,7 @@ const Page = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://templehs-deploy.vercel.app/api/personnel/${apiData?.personnel_id}`
+          `../api/personnel/${apiData?.personnel_id}`
         )
         const jsonData = await response.json()
         setPersonnelData(jsonData.data)
@@ -102,7 +102,7 @@ const Page = () => {
 
       const postData = async () => {
         try {
-          const url = 'https://templehs-deploy.vercel.app/api/appointment'
+          const url = '../api/appointment'
           const response = await fetch(url, {
             method: 'POST',
             headers: {
