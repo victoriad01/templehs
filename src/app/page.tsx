@@ -41,7 +41,7 @@ const Page = () => {
       <div className='mt-8 mx-4 md:mx-8 lg:flex  text-[#191b0a]'>
         <div className='flex flex-col flex-1'>
           <div className='flex gap-3 justify-start items-center mb-10 cursor-pointer'>
-            <Image src='./back.png' alt='Back icon' width={15} height={15} />
+            <Image src='/back.png' alt='Back icon' width={15} height={15} />
             <p>Go back</p>
           </div>
           <p className='text-2xl  lg:text-4xl lg:w-[450px] leading-10 font-medium md:mb-12 lg:mb-0'>
