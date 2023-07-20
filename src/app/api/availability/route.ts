@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db } from '../../../../../config/db/db'
+import { db } from '../../../../config/db/db'
 
 type Data = {
   personnel_id?: string
