@@ -36,6 +36,7 @@ const Page = () => {
     personnel_fullname: '',
     personnel_position: '',
   })
+
   const [isError, setIsError] = useState(false)
   const [error, setError] = useState<string>('')
   const [loading, setLoading] = useState(false)
@@ -48,9 +49,7 @@ const Page = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `/api/availability/byavaid/${id}`
-        )
+        const response = await fetch(`/api/availability/byavaid/${id}`)
         const jsonData = await response.json()
         setApiData(jsonData.data)
       } catch (error) {
@@ -77,7 +76,8 @@ const Page = () => {
 
   // const duration = new Date(apiData?.ava_time.end_time)
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
     if (!isChecked) {
       setError(
         'Please check the box to certify that you have read and accept the terms of Temple'
@@ -85,16 +85,12 @@ const Page = () => {
     }
     if (isChecked) {
       setLoading(true)
-
       // The availability ID
       const availability_id = id
-
       // The personnel ID
       const personnel_id = apiData?.personnel_id
-
       // The assumed patient ID
       const patient_id = 2
-
       const data = { availability_id, patient_id, personnel_id }
 
       const postData = async () => {
@@ -107,9 +103,7 @@ const Page = () => {
             },
             body: JSON.stringify(data),
           })
-
           const responseData = await response.json()
-
           if (responseData.status === 200) {
             // If OK,  navigate to Success page
             setLoading(false)
@@ -125,7 +119,6 @@ const Page = () => {
           setError(error)
         }
       }
-
       postData()
     }
   }

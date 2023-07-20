@@ -13,7 +13,6 @@ export interface Data {
   personnel_jobtype: string
   personnel_fullname: string
   personnel_position: string
-  availability: []
 }
 
 const Page = () => {
@@ -39,7 +38,10 @@ const Page = () => {
     <div>
       <div className='mt-8 mx-4 md:mx-8 lg:flex  text-[#191b0a]'>
         <div className='flex flex-col flex-1'>
-          <div className='flex gap-3 justify-start items-center mb-10 cursor-pointer'>
+          <div
+            className='flex gap-3 justify-start items-center mb-10 cursor-pointer'
+            role='navigation'
+          >
             <Image src='/back.png' alt='Back icon' width={15} height={15} />
             <p>Go back</p>
           </div>
@@ -50,8 +52,16 @@ const Page = () => {
         <div className='flex flex-col flex-1'>
           <div className=' md:flex  md:gap-3'>
             <div>
-              <p className='font-medium mt-4 md:mt-0'>Date</p>
+              <div className='font-medium mt-4 md:mt-0'>
+                <label
+                  htmlFor='date-input'
+                  className='font-medium mt-4 md:mt-0'
+                >
+                  Date
+                </label>
+              </div>
               <input
+                id='date-input'
                 type='date'
                 placeholder='Select date'
                 // value={getDate}
@@ -59,27 +69,44 @@ const Page = () => {
                 className='border-[1px] border-[#D3D3D3] p-3 mt-1 cursor-pointer rounded-md text-gray-500 w-full md:w-[190px]'
               />
             </div>
+
             <div>
-              <p className='font-medium mt-4 md:mt-0'>Time</p>
+              <div className='font-medium mt-4 md:mt-0'>
+                <label
+                  htmlFor='select-time'
+                  className='font-medium mt-4 md:mt-0'
+                >
+                  Time
+                </label>
+              </div>
               <input
                 type='time'
+                id='select-time'
                 placeholder='Select time range'
                 className='border-[1px] border-[#D3D3D3] p-3 mt-1 cursor-pointer rounded-md text-gray-500 w-full md:w-[190px]'
               />
             </div>
             <div className='my-4 md:my-0'>
-              <p className='font-medium '>Expertise</p>
+              <label htmlFor='select-expertise' className='font-medium '>
+                Expertise
+              </label>
 
-              <div className='border-[1px] border-[#D3D3D3] p-3 mt-1 cursor-pointer rounded-md text-gray-500 w-full md:w-[190px]'>
-                <select name='' id=''>
+              <div
+                id='select-expertise'
+                className='border-[1px] border-[#D3D3D3] p-3 mt-1 cursor-pointer rounded-md text-gray-500 w-full md:w-[190px]'
+              >
+                <select name=''>
                   <option value='0'>Select expertise</option>
                 </select>
               </div>
             </div>
           </div>
-          {apiData?.map((eachData) => (
-            <Card eachData={eachData} key={eachData?.personnel_id} />
-          ))}
+
+          <div data-testid='card'>
+            {apiData?.map((eachData) => (
+              <Card eachData={eachData} key={eachData?.personnel_id} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
