@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
-import { db } from '../../../../config/db/db'
+import { db } from '../../../../../config/db/db'
+
 
 export const GET = async () => {
   try {

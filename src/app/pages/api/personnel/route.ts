@@ -6,7 +6,8 @@ import mime from 'mime'
 import { join } from 'path'
 import { stat, mkdir, writeFile } from 'fs/promises'
 import * as dateFn from 'date-fns'
-import { db } from '../../../../config/db/db'
+import { db } from '../../../../../config/db/db'
+
 
 export const POST = async (request: NextRequest) => {
   try {
