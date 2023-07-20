@@ -34,7 +34,10 @@ const Card = ({ eachData }: DataDetails) => {
   }, [eachData.personnel_id])
 
   return (
-    <div className='flex flex-col mt-4 bg-white rounded-md shadow-lg pl-3 md:w-[600px]'>
+    <div
+      className='flex flex-col mt-4 bg-white rounded-md shadow-lg pl-3 md:w-[600px]'
+     
+    >
       <div className='flex justify-end'>
         <p
           className={

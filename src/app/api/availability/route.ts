@@ -8,7 +8,6 @@ type Data = {
 
 export const POST = async (request: NextRequest) => {
   try {
-    // @ts-ignore
     const { personnel_id, ava_time } = await request.json()
     if (personnel_id && ava_time) {
       if (

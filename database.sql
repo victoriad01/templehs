@@ -21,19 +21,9 @@ CREATE TABLE availability (
 );
 
 
--- CREATE TABLE appointment (
---   appointment_id SERIAL PRIMARY KEY,
---   personnel_id INTEGER NOT NULL,
---   availability_id INTEGER NOT NULL,
- 
-
---   FOREIGN KEY (personnel_id) REFERENCES personnel (personnel_id)
--- );
-
 CREATE TABLE appointment (
   appointment_id SERIAL PRIMARY KEY,
   availability_id INTEGER NOT NULL,
   patient_id INTEGER NOT NULL,
-  personnel_id INTEGER NOT NULL,
   FOREIGN KEY (personnel_id) REFERENCES personnel (personnel_id)
 );

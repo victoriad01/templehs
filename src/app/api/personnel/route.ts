@@ -153,6 +153,16 @@ export const POST = async (request: NextRequest) => {
   }
 }
 
+/**
+ * @swagger
+ * /api/hello:
+ *   get:
+ *     description: Returns the hello world
+ *     responses:
+ *       200:
+ *         description: hello world
+ */
+
 export const GET = async () => {
   try {
     const allPersonnel = await db('personnel')
