@@ -21,7 +21,7 @@ const Card = ({ eachData }: DataDetails) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `../../app/api/availability/${eachData.personnel_id}`
+          `/api/availability/${eachData.personnel_id}`
         )
         const jsonData = await response.json()
         setAvailable(jsonData.data)
