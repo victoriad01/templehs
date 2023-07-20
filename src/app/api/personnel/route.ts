@@ -6,8 +6,7 @@ import mime from 'mime'
 import { join } from 'path'
 import { stat, mkdir, writeFile } from 'fs/promises'
 import * as dateFn from 'date-fns'
-import { db } from '../../../../../config/db/db'
-
+import { db } from '../../../../config/db/db'
 
 export const POST = async (request: NextRequest) => {
   try {
@@ -61,7 +60,6 @@ export const POST = async (request: NextRequest) => {
             error: 'Personnel already exist!',
           })
         } else {
-
           const buffer = Buffer.from(await personnel_image.arrayBuffer())
           const relativeUploadDir = `/uploads/${dateFn.format(
             Date.now(),
@@ -86,7 +84,6 @@ export const POST = async (request: NextRequest) => {
             }
           }
           try {
-
             const uniqueSuffix = `${Date.now()}-${Math.round(
               Math.random() * 1e9
             )}`
@@ -109,7 +106,6 @@ export const POST = async (request: NextRequest) => {
             //   ]
             // )
 
-
             const data = {
               personnel_fullname: personnel_fullName,
               personnel_email,
@@ -130,7 +126,6 @@ export const POST = async (request: NextRequest) => {
               personnel_visit_type: personnel_visitType,
               personnel_image: fileUrl,
             })
-
 
             return NextResponse.json({
               status: 200,
