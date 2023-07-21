@@ -157,7 +157,7 @@ const Page = () => {
               >
                 <select
                   onChange={(e) => setSelectedOption(e.target.value)}
-                  className='bg-[white] pr-28 md:pr-6'
+                  className='bg-[white] pr-32 md:pr-6'
                 >
                   <option value='0'>Select expertise</option>
                   <option value='Senior Doctor'>Senior Doctor</option>
