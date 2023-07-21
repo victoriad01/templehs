@@ -7,6 +7,7 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
     const { expertise, date, time } = data
 
     const parts = date.split('-')
+    
     const [day, month, year] = parts
     const reversedDate = `${year}/${month}/${day}`
 
