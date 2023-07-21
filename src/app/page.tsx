@@ -26,8 +26,6 @@ const Page = () => {
   const [selectedTime, setSelectedTime] = useState('')
   const [selectedOption, setSelectedOption] = useState('')
 
-  console.log(selectedTime)
-
   const Date = () => {
     if (Number(selectedDate[0]) >= 1) {
       return selectedDate
@@ -52,7 +50,7 @@ const Page = () => {
       }
     }
 
-    // fetchData()
+    fetchData()
   }, [])
 
   const data = { expertise: Expertise(), date: Date(), time: selectedTime }
@@ -73,7 +71,6 @@ const Page = () => {
           if (responseData.status === 200) {
             // If OK,  navigate to Success page
             setLoading(false)
-            console.log('Hello ' + responseData.data)
           } else {
             setLoading(false)
             setIsError(true)
@@ -87,7 +84,6 @@ const Page = () => {
       }
     }
     postData()
-    console.log('Availablity call made')
   }, [Expertise()])
 
   return (
