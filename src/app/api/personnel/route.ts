@@ -93,18 +93,7 @@ export const POST = async (request: NextRequest) => {
             )}-${uniqueSuffix}.${mime.getExtension(personnel_image.type)}`
             await writeFile(`${uploadDir}/${filename}`, buffer)
             const fileUrl = `${relativeUploadDir}/${filename}`
-            // const aPersonnel = await pool.query(
-            //   'INSERT INTO personnel (personnel_fullName, personnel_email, personnel_description, personnel_jobType, personnel_position, personnel_visitType, personnel_image ) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-            //   [
-            //     personnel_fullName,
-            //     personnel_email,
-            //     personnel_description,
-            //     personnel_jobType,
-            //     personnel_position,
-            //     personnel_visitType,
-            //     fileUrl,
-            //   ]
-            // )
+          
 
             const data = {
               personnel_fullname: personnel_fullName,

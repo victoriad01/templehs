@@ -18,6 +18,27 @@ export interface Data {
 const Page = () => {
   const [apiData, setApiData] = useState<Array<Data>>([])
   const [getDate, setGetDate] = useState('Select date')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const [isError, setIsError] = useState(false)
+
+  const [selectedDate, setSelectedDate] = useState('')
+  const [selectedTime, setSelectedTime] = useState('')
+  const [selectedOption, setSelectedOption] = useState('')
+
+  console.log(selectedTime)
+
+  const Date = () => {
+    if (Number(selectedDate[0]) >= 1) {
+      return selectedDate
+    }
+  }
+
+  const Expertise = () => {
+    if (selectedOption != '0') {
+      return selectedOption
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,8 +52,43 @@ const Page = () => {
       }
     }
 
-    fetchData()
+    // fetchData()
   }, [])
+
+  const data = { expertise: Expertise(), date: Date(), time: selectedTime }
+
+  useEffect(() => {
+    const postData = async () => {
+      try {
+        if (data.expertise && data.date && data.time) {
+          const url = '/api/search'
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          })
+          const responseData = await response.json()
+          if (responseData.status === 200) {
+            // If OK,  navigate to Success page
+            setLoading(false)
+            console.log('Hello ' + responseData.data)
+          } else {
+            setLoading(false)
+            setIsError(true)
+            setError(responseData.error)
+          }
+        }
+      } catch (error) {
+        setIsError(true)
+        // @ts-ignore
+        setError(error)
+      }
+    }
+    postData()
+    console.log('Availablity call made')
+  }, [Expertise()])
 
   return (
     <div>
@@ -58,6 +114,9 @@ const Page = () => {
                   className='font-medium mt-4 md:mt-0'
                 >
                   Date
+                  <span className='text-[gray] font-light text-[12px] pl-1'>
+                    (Input or select a date)
+                  </span>
                 </label>
               </div>
               <input
@@ -65,6 +124,7 @@ const Page = () => {
                 type='date'
                 placeholder='Select date'
                 // value={getDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
                 defaultValue={getDate}
                 className='border-[1px] border-[#D3D3D3] p-3 mt-1 cursor-pointer rounded-md text-gray-500 w-full md:w-[190px]'
               />
@@ -77,11 +137,15 @@ const Page = () => {
                   className='font-medium mt-4 md:mt-0'
                 >
                   Time
+                  <span className='text-[gray] font-light text-[12px] pl-1'>
+                    (Input or select time)
+                  </span>
                 </label>
               </div>
               <input
                 type='time'
                 id='select-time'
+                onChange={(e) => setSelectedTime(e.target.value)}
                 placeholder='Select time range'
                 className='border-[1px] border-[#D3D3D3] p-3 mt-1 cursor-pointer rounded-md text-gray-500 w-full md:w-[190px]'
               />
@@ -93,10 +157,17 @@ const Page = () => {
 
               <div
                 id='select-expertise'
-                className='border-[1px] border-[#D3D3D3] p-3 mt-1 cursor-pointer rounded-md text-gray-500 w-full md:w-[190px]'
+                className=' border-[1px] border-[#D3D3D3] p-3 mt-1 cursor-pointer rounded-md text-gray-500 w-full md:w-[190px]'
               >
-                <select name=''>
+                <select
+                  onChange={(e) => setSelectedOption(e.target.value)}
+                  className='bg-[white] pr-28 md:pr-6'
+                >
                   <option value='0'>Select expertise</option>
+                  <option value='Senior Doctor'>Senior Doctor</option>
+                  <option value='Senior Dentist'>Senior Dentist</option>
+                  <option value='Dentist'>Dentist</option>
+                  <option value='Doctor'>Doctor</option>
                 </select>
               </div>
             </div>
