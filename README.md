@@ -17,3 +17,5 @@ Please, note that the application uses a 20mb free package of postgres hosting o
 - The application is deployed on Vercel using Git Action and it is available on https://templehs-deploy.vercel.app/
 
 - The Git Repo for the project is https://github.com/victoriad01/templehs
+
+- The Vercel Build and Deployment is set to trigger on push to the main while pushes to other branches trigger a Vercel preview deployment
