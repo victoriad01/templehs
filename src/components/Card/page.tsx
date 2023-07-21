@@ -34,10 +34,7 @@ const Card = ({ eachData }: DataDetails) => {
   }, [eachData.personnel_id])
 
   return (
-    <div
-      className='flex flex-col mt-4 bg-white rounded-md shadow-lg pl-3 md:w-[600px]'
-     
-    >
+    <div className='flex flex-col mt-4 bg-white rounded-md shadow-lg pl-3 md:w-[600px]'>
       <div className='flex justify-end'>
         <p
           className={
@@ -97,7 +94,7 @@ const Card = ({ eachData }: DataDetails) => {
           ))}
         </div>
 
-        <div className='flex gap-6 z-10 bg-[#d0fed0] md:bg-transparent p-4 rounded-full opacity-90'>
+        <div className='hidden md:flex gap-6 z-10 bg-[#d0fed0] md:bg-transparent p-4 rounded-full opacity-90'>
           <SlArrowLeft className='cursor-pointer' />
           <SlArrowRight className='cursor-pointer' />
         </div>
