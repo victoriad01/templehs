@@ -1,6 +1,6 @@
 ##
 
-This is a fullstack application created with NextJS 13.4.9.
+This is a fullstack application for booking medical personnels. It was built using NextJS 13.4.9.
 
 - It has the homepage,
 - A dynamic booking page
@@ -12,7 +12,7 @@ The API also feature majorly
 - The availability route
 - And the appointment route
 
-Please, note that the application uses a 20mb free package of postgres hosting on ElephantSQL. And because the database hosting is free, it sometimes throws too many connection error.
+Please, note that the application is hosted on a 20mb free package of postgres hosting provided by ElephantSQL. And because the database hosting is free, it sometimes throws too many connection error.
 
 - The application is deployed on Vercel using Git Action and it is available on https://templehs-deploy.vercel.app/
 
