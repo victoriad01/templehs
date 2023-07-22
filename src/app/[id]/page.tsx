@@ -182,7 +182,7 @@ const Page = () => {
                   <AiOutlineClockCircle />
                   Duration:
                 </p>
-                <p className='font-medium'>{apiData?.ava_time?.end_time}</p>
+                <p className='font-medium'>30 Minutes</p>
               </div>
               <div className='md:flex justify-start item-center mb-4 '>
                 <p className='w-[200px] flex justify-start items-center gap-2'>

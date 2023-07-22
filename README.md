@@ -1,8 +1,10 @@
 ##
 
-This is a fullstack application for booking medical personnels. It was built using NextJS 13.4.9.
+This is Victor Oluwafemi's submission of the Fullstack Application Assessment for booking Medical Personnels.
 
-- It has the homepage,
+It was built using NextJS 13.4.9.
+
+- It has an homepage,
 - A dynamic booking page
 - And a success page.
 

@@ -60,3 +60,33 @@ export const GET = async () => {
     return NextResponse.json({ status: 500, error })
   }
 }
+
+export const DELETE = async (request: NextRequest) => {
+  try {
+    const { appointment_id } = await request.json()
+    const checkId = isNaN(Number(appointment_id))
+    if (!checkId) {
+      const checkData = await db('appointment').where(
+        'appointment_id',
+        appointment_id
+      )
+      if (checkData[0]) {
+        await db('appointment').where('appointment_id', appointment_id).del()
+        return NextResponse.json({
+          status: 200,
+          message: `Appointment with ID ${appointment_id} Deleted!`,
+        })
+      } else {
+        return NextResponse.json({
+          status: 400,
+          error: `No document with the Id: ${appointment_id}!`,
+        })
+      }
+    } else {
+      return NextResponse.json({ status: 500, error: 'Value is not a number!' })
+    }
+  } catch (error) {
+    console.log(error)
+    return NextResponse.json({ status: 500, error })
+  }
+}
