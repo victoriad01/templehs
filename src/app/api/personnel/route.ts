@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import mime from 'mime'
-
-// import * as mime from 'mime-types'
-
 import { join } from 'path'
 import { stat, mkdir, writeFile } from 'fs/promises'
 import * as dateFn from 'date-fns'
