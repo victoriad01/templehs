@@ -1,6 +1,6 @@
 ##
 
-This is Victor Oluwafemi's submission of the Fullstack Application Assessment for booking Medical Personnels.
+Victor Oluwafemi's submission for the Fullstack Assessment of TempleHS, an application for booking Medical Personnels.
 
 It was built using NextJS 13.4.9.
 
